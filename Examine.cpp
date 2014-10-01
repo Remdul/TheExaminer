@@ -45,6 +45,7 @@ int main()
     char proclnk[0xFFF];
     int MAXSIZE = 0xFFF;
 	ssize_t r;
+	bool doList = false;
 
 	DIR* dir = opendir("/proc/");
 	if (!dir)
@@ -58,14 +59,16 @@ int main()
 
 		//proc.setProcess(,entry->d_name,,);
 		//processes.push_back(proc);
-		if (r < 0)
+        doList = true;
+        if (r < 0)
 		{
-			//printf("failed to readlink\n");
-			//break;
+			doList = false;
 		}
 		filename[r] = '\0';
-
-		printf("PID: %s    Filename: %s\n", entry->d_name, filename);
+		if (doList == true)
+		{
+			printf("[PID: %5s] Filename: %s\n", entry->d_name, filename);
+		}
 	}
 	return 0;
 }
